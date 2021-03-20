@@ -1,8 +1,9 @@
-# Mapping-Police-Violence-in-Seattle(https://ramouj.github.io/Mapping-Police-Violence-in-Seattle/)
+# Mapping-Police-Violence-in-Seattle
 
 ## Project Description
 This web map features data from law enforcement agencies around the state, and shows the number of police killings in the Pacific Northwest from January 2013 to March 2021. The first map shows the locations of the killings, the second map shows the cause of death for each killing, and the last map shows the race of the victims.
 ![Map Image](img/Capture.JPG)
+Link to web app: (https://ramouj.github.io/Mapping-Police-Violence-in-Seattle/)
 
 ## Project Goals
 Through this web map, I hope to inform people about police violence in Seattle starting from 2013 to now. I will regularly update this web map every few months and highlight new and interesting trends I discover through my analysis. My goal is to bring awareness to police violence as it occurs in cities  all around the state, and help vulnerable populations visualize spaces that may not be accepting of them due to their race or identity. I hope to futher develop this project by including other widgets, figures, and tables that can better summarize the data.
