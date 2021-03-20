@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title></title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
   <style>
-    html,body,#map {
+    html,
+    body,
+    #map {
       width: 100%;
       height: 100%;
       padding: 0;
@@ -15,13 +19,22 @@
   </style>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
+
 <body>
+
+  <!-- sidebar -->
+    <div id="Description">
+      <h1>Mapping Police Violence in Seattle</h1>
+      <h4 style="font-family: courier;"> This web map features data from law enforcement agencies around the state, and shows the number of police killings in the Pacific Northwest from January 2013 to March 2021. The first map shows the locations of the killings, the second map shows the cause of death for each killing, and the last map shows the race of the victims.</h4>
+      <p style="font-family: courier;"> I obtained the data from <i>mappingpoliceviolence.org</i> which was last updated on February 27th. The organization meticulously sourced the data from 3 of the largest crowdsourced databases on police killings in the country. They've also cross-referenced and verified the data through social media, obituaries, criminal records, police records, and other sources to verify othe race of over 90% of all victims in the database.</p>
+    </div>
+
   <div id='map'></div>
   <script type="text/javascript">
     var map = L.map('map', {
       maxZoom: 14,
       minZoom: 10
-    }).setView([47.612833, -122.331739], 12.5);
+    }).setView([47.612833, -122.331739], 12);
 
     var grayscale = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png').addTo(map);
     var streets = L.tileLayer('http://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}@2x.png');
@@ -59,7 +72,78 @@
       collapsed: false,
       position: 'topright'
     }).addTo(map);
+
+    function styleDiv(div) {
+      div.style.background = "#595757";
+      div.style.color = "#f5f5f5";
+      div.style.padding = "20px";
+      div.style["border-radius"] = "10px";
+      return div;
+    }
+
+    var policeLegend = L.control({
+      position: 'topleft'
+    });
+    policeLegend.onAdd = function() {
+      var div = L.DomUtil.create('div', 'legend');
+      div.innerHTML += '<b>Police Killings</b><br />';
+      div = styleDiv(div);
+      return div;
+    };
+
+    var causeLegend = L.control({
+      position: 'topleft'
+    });
+    causeLegend.onAdd = function() {
+      var div = L.DomUtil.create('div', 'legend');
+      div.innerHTML += '<b>Cause of Death</b><br />';
+      div.innerHTML += '<p><i class="fas fa-square" style="color: #48d5c3"></i> Gunshot</p>';
+      div.innerHTML += '<p><i class="fas fa-square" style="color: #4583cf"></i> Taser</p>';
+      div = styleDiv(div);
+      return div;
+    };
+
+    var raceLegend = L.control({
+      position: 'topleft'
+    });
+    raceLegend.onAdd = function() {
+      var div = L.DomUtil.create('div', 'legend');
+      div.innerHTML += '<b>Race of the Victim</b><br />';
+      div.innerHTML += '<p><i class="fas fa-circle" style="color: #48d5c3"></i> White</p>';
+      div.innerHTML += '<p><i class="fas fa-circle" style="color: #e86826"></i> Black</p>';
+      div.innerHTML += '<p><i class="fas fa-circle" style="color: #f0db79"></i> Asian</p>';
+      div.innerHTML += '<p><i class="fas fa-circle" style="color: #fb872a"></i> Hispanic</p>';
+      div.innerHTML += '<p><i class="fas fa-circle" style="color: #df400d"></i> Native American</p>';
+      div.innerHTML += '<p><i class="fas fa-circle" style="color: #83878c"></i> Unknown</p>';
+      div = styleDiv(div);
+      return div;
+    };
+
+    map.on('overlayadd', function(eventLayer) {
+      if (eventLayer.name === 'Police Killings') {
+        policeLegend.addTo(map);
+      } else if (eventLayer.name === 'Cause of Death') {
+        causeLegend.addTo(map);
+      } else if (eventLayer.name === 'Race of the Victim') {
+        raceLegend.addTo(map);
+      }
+    });
+
+    map.on('overlayremove', function(eventLayer) {
+      if (eventLayer.name === 'Police Killings') {
+        map.removeControl(policeLegend);
+      } else if (eventLayer.name === 'Cause of Death') {
+        map.removeControl(causeLegend);
+      } else if (eventLayer.name === 'Race of the Victim') {
+        map.removeControl(raceLegend);
+      }
+    });
   </script>
+  <div id='credit'>
+  <p style="font-size: 80%;"><i>I would like to thank Bo Zhao and Tyler McCrea for instructing the Geog 458 course at the University of Washington, and providing the starter files for this web map.</i> </p>
+  <br>
+  </div>
+
 </body>
 
 </html>
